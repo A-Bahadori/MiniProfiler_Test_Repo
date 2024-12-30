@@ -1,0 +1,94 @@
+
+@{
+    ViewData["Title"] = "داشبورد ادمین";
+}
+
+<!-- پنل کاربری -->
+<div class="container-fluid" id="dashboard">
+    <div class="row">
+        <!-- سایدبار -->
+        @await Component.InvokeAsync("DashboardSidebar")
+
+        <!-- محتوای اصلی -->
+        <div class="col-md-9 col-lg-10 dashboard-content">
+            <h3 class="mb-4">داشبورد ادمین</h3>
+
+            <!-- آمار کلی -->
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="stat-card text-center">
+                        <i class="fas fa-shopping-cart"></i>
+                        <h5>سفارشات</h5>
+                        <h3>12</h3>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card text-center">
+                        <i class="fas fa-heart"></i>
+                        <h5>علاقه‌مندی‌ها</h5>
+                        <h3>24</h3>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card text-center">
+                        <i class="fas fa-envelope"></i>
+                        <h5>پیام‌های جدید</h5>
+                        <h3>3</h3>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card text-center">
+                        <i class="fas fa-dollar-sign"></i>
+                        <h5>مجموع پرداخت‌ها</h5>
+                        <h3>2,450,000</h3>
+                    </div>
+                </div>
+            </div>
+
+            <!-- سفارشات اخیر -->
+            <div class="card mt-4">
+                <div class="card-header bg-white">
+                    <h5 class="mb-0">سفارشات اخیر</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>شماره سفارش</th>
+                                    <th>خدمت</th>
+                                    <th>تاریخ</th>
+                                    <th>وضعیت</th>
+                                    <th>مبلغ</th>
+                                    <th>عملیات</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>#1234</td>
+                                    <td>خدمت 1</td>
+                                    <td>1402/08/15</td>
+                                    <td><span class="badge bg-success">تکمیل شده</span></td>
+                                    <td>850,000 تومان</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-primary">مشاهده</button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>#1235</td>
+                                    <td>خدمت 2</td>
+                                    <td>1402/08/14</td>
+                                    <td><span class="badge bg-warning">در حال انجام</span></td>
+                                    <td>1,200,000 تومان</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-primary">مشاهده</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

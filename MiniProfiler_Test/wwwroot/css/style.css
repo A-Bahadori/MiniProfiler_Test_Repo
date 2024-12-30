@@ -1,0 +1,167 @@
+﻿@font-face {
+    font-family: 'Vazir';
+    src: url('https://cdn.jsdelivr.net/gh/rastikerdar/vazir-font@v30.1.0/dist/Vazir-Regular.woff2') format('woff2');
+}
+
+body {
+    font-family: 'Vazir', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.navbar {
+    background-color: #2c3e50;
+    padding: 1rem;
+}
+
+.navbar-brand, .nav-link {
+    color: white !important;
+}
+
+.service-card {
+    transition: transform 0.3s;
+    margin-bottom: 2rem;
+}
+
+    .service-card:hover {
+        transform: translateY(-5px);
+    }
+
+.service-image {
+    height: 200px;
+    /*object-fit: cover;*/
+    object-fit: contain;
+}
+
+.footer {
+    background-color: #2c3e50;
+    color: white;
+    padding: 2rem 0;
+    margin-top: auto;
+}
+
+.gallery-image {
+    height: 150px;
+    /*object-fit: cover;*/
+    object-fit: contain;
+    cursor: pointer;
+    margin-bottom: 1rem;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+    .gallery-image:hover {
+        transform: scale(1.05);
+    }
+
+.service-header {
+    margin-bottom: 2rem;
+}
+
+.main-service-image {
+    cursor: pointer;
+    transition: transform 0.2s;
+    height: 250px;
+    /*object-fit: cover;*/
+    object-fit: contain;
+}
+
+    .main-service-image:hover {
+        transform: scale(1.02);
+    }
+
+#imageModal .modal-content {
+    background-color: transparent;
+    border: none;
+}
+
+#modalImage {
+    max-height: 80vh;
+    object-fit: contain;
+}
+
+.service-price {
+    font-size: 1.5rem;
+    color: #27ae60;
+    font-weight: bold;
+}
+
+.auth-container {
+    min-height: calc(100vh - 200px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f8f9fa;
+}
+
+.auth-card {
+    max-width: 400px;
+    width: 100%;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+}
+
+.dashboard-sidebar {
+    background-color: #2c3e50;
+    min-height: calc(100vh - 76px);
+    padding: 20px 0;
+}
+
+    .dashboard-sidebar .nav-link {
+        color: #fff;
+        padding: 10px 20px;
+        margin: 5px 0;
+        border-radius: 5px;
+        transition: all 0.3s;
+    }
+
+        .dashboard-sidebar .nav-link:hover,
+        .dashboard-sidebar .nav-link.active {
+            background-color: #34495e;
+        }
+
+        .dashboard-sidebar .nav-link i {
+            margin-left: 10px;
+        }
+
+.dashboard-content {
+    padding: 20px;
+}
+
+.stat-card {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+    .stat-card i {
+        font-size: 2rem;
+        margin-bottom: 10px;
+        color: #2c3e50;
+    }
+
+
+.modal-header .btn-close {
+    margin: unset;
+}
+
+.select2-container--default .select2-selection--multiple {
+    border-color: #ced4da;
+}
+
+.select2-container--default.select2-container--focus .select2-selection--multiple {
+    border-color: #86b7fe;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+[dir="rtl"] .select2-container--default .select2-selection--multiple .select2-selection__choice {
+    float: right;
+}
+
+@media (max-width: 767px) {
+    .main-service-image {
+        margin-bottom: 1rem;
+    }
+}

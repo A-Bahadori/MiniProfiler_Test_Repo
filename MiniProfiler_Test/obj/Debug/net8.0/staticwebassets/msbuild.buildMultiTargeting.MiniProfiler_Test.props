@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\MiniProfiler_Test.props" />
+</Project>

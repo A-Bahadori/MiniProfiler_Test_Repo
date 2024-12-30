@@ -1,0 +1,80 @@
+@model MiniProfiler_Test.Models.Api.Users.LoginApiVm
+
+@{
+    ViewData["Title"] = "ورود";
+}
+
+<!-- صفحه ورود -->
+<div class="auth-container" id="login">
+    <div class="card auth-card">
+        <div class="card-body p-4">
+            <h4 class="text-center mb-4">ورود به حساب کاربری</h4>
+            <form method="post" asp-area="" asp-controller="Account" asp-action="Login"
+                  asp-route-returnUrl="@Context.Request.Query["ReturnUrl"]">
+                <div class="mb-3">
+                    <label asp-for="Username" class="form-label"></label>
+                    <input type="text" asp-for="Username" class="form-control" required>
+                    <span asp-validation-for="Username" class="text text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Password" class="form-label"></label>
+                    <input type="password" asp-for="Password" class="form-control" required>
+                    <span asp-validation-for="Password" class="text text-danger"></span>
+                </div>
+                <div class="mb-3 form-check">
+                    <input type="checkbox" asp-for="RememberMe" class="form-check-input" id="rememberMe">
+                    <label class="form-check-label" asp-for="RememberMe" for="rememberMe"></label>
+                    <span asp-validation-for="RememberMe" class="text text-danger"></span>
+                </div>
+                <div class="form-group captcha-containermb-3">
+                    <div class="d-flex align-items-center mb-2 mt-1">
+                        <img id="captchaImage" class="border rounded"
+                             src="@Url.Action("GenerateImageCaptcha", "Captcha", new { area = "" })" alt="Captcha"
+                             style="height: 80px; width: 200px;"/>
+                        <button type="button" id="refreshCaptcha" class="btn btn-primary ms-3">
+                            <i class="fas fa-refresh"></i>
+                        </button>
+                    </div>
+                    <div class="mb-3">
+                        <input type="text" class="form-control" id="captchaInput" asp-for="CaptchaInput" required/>
+                        <span class="form-label" data-placeholder="کد امنیتی داخل تصویر را وارد کنید"></span>
+                        <span asp-validation-for="CaptchaInput" class="text text-danger"></span>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">ورود</button>
+                @* <div class="text-center mt-3">
+                <a href="#forgot-password" class="text-decoration-none">رمز عبور خود را فراموش کرده‌اید؟</a>
+                </div> *@
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+
+{
+    <script>
+        $(document).ready(function () {
+            $('#refreshCaptcha').click(function () {
+                $.ajax({
+                    url: '@Url.Action("GenerateImageCaptcha", "Captcha", new { area = "" })',
+                    type: 'GET',
+                    success: function () {
+                        // به‌روزرسانی src تصویر با یک زمان تصادفی برای جلوگیری از کش شدن
+                        $('#captchaImage').attr('src', '@Url.Action("GenerateImageCaptcha", "Captcha", new { area = "" })? ' + new Date().getTime());
+                    },
+                    error: function (xhr, status, error) {
+                        if (xhr.status === 429) {
+                            toastr.info('شما به محدودیت تولید کد امنیتی رسیده اید. لطفا یک دقیقه دیگر امتحان کنید');
+
+                        } else {
+                            toastr.info('شما به محدودیت تولید کد امنیتی رسیده اید. لطفا یک دقیقه دیگر امتحان کنید');
+                        }
+                    }
+                });
+            });
+        });
+
+    </script>
+}
+

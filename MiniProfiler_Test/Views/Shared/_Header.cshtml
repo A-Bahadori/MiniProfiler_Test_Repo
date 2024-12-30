@@ -1,0 +1,58 @@
+﻿@using System.Security.Claims
+
+@{
+    var areaPanel = "";
+    var userRoles = string.Join(", ", User.FindAll(ClaimTypes.Role).Select(c => c.Value));
+    if (userRoles.Contains("Admin"))
+    {
+        areaPanel = "Admin";
+    }
+    else if (userRoles.Contains("User"))
+    {
+        areaPanel = "User";
+    }
+    
+    var actorClaim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Actor)?.Value;
+}
+
+<!-- منو -->
+<nav class="navbar navbar-expand-lg">
+    <div class="container">
+        <a class="navbar-brand" href="/">شرکت رایورز</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">خانه</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" asp-area="" asp-controller="Services" asp-action="Index">خدمات</a>
+                </li>
+                @if (User.Identity != null && User.Identity.IsAuthenticated)
+                {
+                    <li class="nav-item">
+                        <a class="nav-link" asp-area="@areaPanel" asp-controller="Home" asp-action="Index">@actorClaim عزیز خوش آمدید</a>
+                    </li>
+                }
+            </ul>
+            <div class="d-flex">
+                @if (User.Identity != null && User.Identity.IsAuthenticated)
+                {
+                    <a asp-area="@areaPanel" asp-controller="Home" asp-action="Index" class="btn btn-outline-light me-2">پنل کاربری</a>
+                    <form class="form-inline" method="post" asp-action="Logout" asp-controller="Account" asp-area="">
+                        <button type="submit" class="btn btn-outline-light me-2">
+                            خروج
+                        </button>
+                    </form>
+                }
+                else
+                {
+                    <a asp-area="" asp-controller="Account" asp-action="Login" class="btn btn-outline-light me-2">ورود</a>
+                    <a asp-area="" asp-controller="Account" asp-action="Register" class="btn btn-light">ثبت نام</a>
+                }
+            </div>
+        </div>
+    </div>
+</nav>

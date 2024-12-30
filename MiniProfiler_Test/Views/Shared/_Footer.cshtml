@@ -1,0 +1,45 @@
+﻿<!-- فوتر -->
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <h5>درباره ما</h5>
+                <p>توضیحات مختصر درباره شرکت و خدمات آن</p>
+            </div>
+            <div class="col-md-4 mb-4">
+                <h5>لینک‌های مفید</h5>
+                <ul class="list-unstyled">
+                    <li><a href="/" class="text-white text-decoration-none">خانه</a></li>
+                    <li><a asp-area="" asp-controller="Services" asp-action="Index" class="text-white text-decoration-none">خدمات</a></li>
+                    @if (User.Identity != null && User.Identity.IsAuthenticated)
+                    {
+                        <li>
+                            <form class="form-inline" method="post" asp-action="Logout" asp-controller="Account" asp-area="">
+                                <button type="submit" class="text-white text-decoration-none">
+                                    خروج
+                                </button>
+                            </form>
+                        </li>
+                    }
+                    else
+                    {
+                        <li>
+                            <a asp-area="" asp-controller="Account" asp-action="Login" class="text-white text-decoration-none">ورود</a>
+                        </li>
+                        <li>
+                            <a asp-area="" asp-controller="Account" asp-action="Register" class="text-white text-decoration-none">ثبت نام</a>
+                        </li>
+                    }
+                </ul>
+            </div>
+            <div class="col-md-4 mb-4">
+                <h5>تماس با ما</h5>
+                <p>
+                    آدرس: تهران، خیابان ولیعصر<br>
+                    تلفن: 021-12345678<br>
+                    ایمیل: info@example.com
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>

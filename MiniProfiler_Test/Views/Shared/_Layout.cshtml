@@ -1,0 +1,19 @@
+﻿<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <partial name="_MetaTags" />
+    <title>@ViewData["Title"] - رایورز </title>
+    <partial name="_Styles" />
+    @await RenderSectionAsync("Styles", required: false)
+</head>
+<body>
+<mini-profiler />
+<partial name="_Header"/>
+@RenderBody()
+<partial name="_Footer"/>
+<partial name="_Scripts"/>
+<partial name="_ValidationScriptsPartial"/>
+<partial name="_Message"/>
+@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

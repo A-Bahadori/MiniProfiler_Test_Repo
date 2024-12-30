@@ -1,0 +1,305 @@
+@using MiniProfiler_Test.Convertors
+@model MiniProfiler_Test.Services.Base.Response<MiniProfiler_Test.Services.Base.SearchUsersResult>
+@{
+    ViewData["Title"] = "مدیریت کاربران";
+    var username = Context.Request.Query["username"].ToString();
+    var firstname = Context.Request.Query["firstname"].ToString();
+    var lastname = Context.Request.Query["lastname"].ToString();
+    var startDate = Context.Request.Query["startDate"].ToString();
+    var endDate = Context.Request.Query["endDate"].ToString();
+}
+
+@section Styles
+
+{
+    <link href="~/lib/persiandatepicker/persian-datepicker.min.css" rel="stylesheet"/>
+}
+
+<div class="container-fluid" id="dashboard">
+    <div class="row">
+        <!-- سایدبار -->
+        @await Component.InvokeAsync("DashboardSidebar")
+
+        <!-- محتوای اصلی -->
+        <div class="col-md-9 col-lg-10 dashboard-content">
+            @* <!-- نمایش پیغام‌ها -->
+            @if (!string.IsNullOrEmpty(Model?.Message))
+            {
+            <div class="alert alert-@(Model.Success ? "success" : "danger") alert-dismissible fade show" role="alert">
+            @Model.Message
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            }
+            @if (TempData["ErrorMessage"] != null)
+            {
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @TempData["ErrorMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            } *@
+
+            <!-- هدر و دکمه ایجاد -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2>@ViewData["Title"]</h2>
+                <a asp-action="Create" asp-controller="Users" asp-area="Admin" class="btn btn-success">
+                    <i class="fas fa-plus ml-1"></i>
+                    ایجاد کاربر جدید
+                </a>
+            </div>
+
+            <!-- بخش فیلترها -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <form id="filterForm" method="get" class="row g-3">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>نام کاربری</label>
+                                <input type="text" name="username" class="form-control"
+                                       placeholder="جستجو در نام کاربری"
+                                       value="@username">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>نام</label>
+                                <input type="text" name="firstName" class="form-control"
+                                       placeholder="جستجو در نام"
+                                       value="@firstname">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>نام خانوادگی</label>
+                                <input type="text" name="lastName" class="form-control"
+                                       placeholder="جستجو در نام خانوادگی"
+                                       value="@lastname">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>از تاریخ</label>
+                                <input type="text" name="startDate" class="form-control datepicker"
+                                       placeholder="از تاریخ..." value="@Context.Request.Query["startDate"]" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>تا تاریخ</label>
+                                <input type="text" name="endDate" class="form-control datepicker"
+                                       placeholder="تا تاریخ..." value="@Context.Request.Query["endDate"]" readonly>
+                            </div>
+                        </div>
+                        <div class="col-md-3 d-flex align-items-end">
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i class="fas fa-search ml-1"></i>
+                                جستجو
+                            </button>
+                        </div>
+                        <input type="hidden" name="pageNumber" value="1"/>
+                        <input type="hidden" name="pageSize" value="10"/>
+                    </form>
+                </div>
+            </div>
+
+            <!-- جدول کاربران -->
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-responsive text-center">
+                        <table class="table table-hover align-middle">
+                            <thead class="table-light">
+                            <tr>
+                                <th>نام کاربری</th>
+                                <th>نام</th>
+                                <th>نام خانوادگی</th>
+                                <th>نقش</th>
+                                <th>تاریخ ثبت</th>
+                                <th>عملیات</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @if (Model?.Success == true && Model.Data?.Items != null && Model.Data.Items.Any())
+                            {
+                                @foreach (var user in Model.Data.Items)
+                                {
+                                    var modalId = $"deleteUserModal_{user.Id}";
+                                    <tr>
+                                        <td>@user.Username</td>
+                                        <td>@user.FirstName</td>
+                                        <td>@user.LastName</td>
+                                        <td>@user.Role</td>
+                                        <td>@Convert.ToDateTime(user.CreatedAt.DateTime).ToShamsiDateAndTime()</td>
+                                        <td>
+                                            <div class="btn-group" role="group">
+                                                <a asp-action="Details" asp-area="Admin" asp-controller="Users"
+                                                   asp-route-id="@user.Id"
+                                                   class="btn btn-sm btn-info">
+                                                    <i class="fas fa-detail"></i>
+                                                    جزئیات
+                                                </a>
+                                                <a asp-action="Edit" asp-area="Admin" asp-controller="Users"
+                                                   asp-route-id="@user.Id"
+                                                   class="btn btn-sm btn-primary">
+                                                    <i class="fas fa-edit"></i>
+                                                    ویرایش
+                                                </a>
+                                                <button class="btn btn-sm btn-danger" data-bs-toggle="modal"
+                                                        data-bs-target="#@modalId">
+                                                    <i class="fas fa-trash"></i> حذف
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    @await Html.PartialAsync("_DeleteConfirmationModal", new MiniProfiler_Test.Models.Shared.DeleteConfirmationViewModel
+                                    {
+                                        ModalId = modalId,
+                                        Title = "تأیید حذف کاربر",
+                                        Message = $"آیا از حذف کاربر \"{user.Username}\" اطمینان دارید؟",
+                                        WarningMessage = "این عملیات غیرقابل برگشت است.",
+                                        Action = "Delete",
+                                        Controller = "Users",
+                                        Area = "Admin",
+                                        Id = user.Id.ToString()
+                                    })
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="7" class="text-center">هیچ رکوردی یافت نشد</td>
+                                </tr>
+                            }
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- صفحه‌بندی -->
+                    @if (Model?.Success == true && Model.Data?.Items != null && Model.Data.Items.Any())
+                    {
+                        <nav aria-label="Page navigation" class="mt-4">
+                            <ul class="pagination justify-content-center">
+                                <li class="page-item @(!Model.Data.HasPreviousPage ? "disabled" : "")">
+                                    <a class="page-link"
+                                       asp-controller="Users"
+                                       asp-action="Index"
+                                       asp-route-pageNumber="@(Model.Data.PageNumber - 1)"
+                                       asp-route-username="@username"
+                                       asp-route-firstname="@firstname"
+                                       asp-route-lastname="@lastname"
+                                       asp-route-startDate="@startDate"
+                                       asp-route-endDate="@endDate">قبلی</a>
+                                </li>
+
+                                @{
+                                    var startPage = Math.Max(1, Model.Data.PageNumber - 2);
+                                    var endPage = Math.Min(Model.Data.TotalPages, Model.Data.PageNumber + 2);
+                                }
+
+                                @if (startPage > 1)
+                                {
+                                    <li class="page-item">
+                                        <a class="page-link"
+                                           asp-controller="Users"
+                                           asp-action="Index"
+                                           asp-route-pageNumber="1"
+                                           asp-route-username="@username"
+                                           asp-route-firstname="@firstname"
+                                           asp-route-lastname="@lastname"
+                                           asp-route-startDate="@startDate"
+                                           asp-route-endDate="@endDate">1</a>
+                                    </li>
+                                    @if (startPage > 2)
+                                    {
+                                        <li class="page-item disabled">
+                                            <span class="page-link">...</span>
+                                        </li>
+                                    }
+                                }
+
+                                @for (int i = startPage; i <= endPage; i++)
+                                {
+                                    <li class="page-item @(i == Model.Data.PageNumber ? "active" : "")">
+                                        <a class="page-link"
+                                           asp-controller="Users"
+                                           asp-action="Index"
+                                           asp-route-pageNumber="@i"
+                                           asp-route-username="@username"
+                                           asp-route-firstname="@firstname"
+                                           asp-route-lastname="@lastname"
+                                           asp-route-startDate="@startDate"
+                                           asp-route-endDate="@endDate">@i</a>
+                                    </li>
+                                }
+
+                                @if (endPage < Model.Data.TotalPages)
+                                {
+                                    @if (endPage < Model.Data.TotalPages - 1)
+                                    {
+                                        <li class="page-item disabled">
+                                            <span class="page-link">...</span>
+                                        </li>
+                                    }
+
+                                    <li class="page-item">
+                                        <a class="page-link"
+                                           asp-controller="Users"
+                                           asp-action="Index"
+                                           asp-route-pageNumber="@Model.Data.TotalPages"
+                                           asp-route-username="@username"
+                                           asp-route-firstname="@firstname"
+                                           asp-route-lastname="@lastname"
+                                           asp-route-startDate="@startDate"
+                                           asp-route-endDate="@endDate">@Model.Data.TotalPages</a>
+                                    </li>
+                                }
+
+                                <li class="page-item @(!Model.Data.HasNextPage ? "disabled" : "")">
+                                    <a class="page-link"
+                                       asp-controller="Users"
+                                       asp-action="Index"
+                                       asp-route-pageNumber="@(Model.Data.PageNumber + 1)"
+                                       asp-route-username="@username"
+                                       asp-route-firstname="@firstname"
+                                       asp-route-lastname="@lastname"
+                                       asp-route-startDate="@startDate"
+                                       asp-route-endDate="@endDate">بعدی</a>
+                                </li>
+                            </ul>
+                        </nav>
+
+                        <div class="text-center mt-2">
+                            <small class="text-muted">
+                                نمایش @Model.Data.Items.Count از @Model.Data.TotalItems رکورد
+                                (صفحه @Model.Data.PageNumber از @Model.Data.TotalPages)
+                            </small>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/lib/persiandatepicker/persian-date.min.js"></script>
+    <script src="~/lib/persiandatepicker/persian-datepicker.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            // تنظیمات تقویم شمسی
+            $('.datepicker').persianDatepicker({
+                format: 'YYYY/MM/DD',
+                initialValue: false,
+                responsive: true,
+                toolbox: {
+                    calendarSwitch: {
+                        enabled: false
+                    }
+                },
+                onShow: function () {
+                    $(this).attr('readonly', true);
+                }
+            });
+        });
+    </script>
+}

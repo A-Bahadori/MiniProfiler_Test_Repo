@@ -1,0 +1,138 @@
+@model MiniProfiler_Test.Models.Api.Users.CreateUserViewModel
+@{
+    ViewData["Title"] = "ایجاد کاربر جدید";
+}
+<div class="container-fluid" id="dashboard">
+    <div class="row">
+        <!-- سایدبار -->
+        @await Component.InvokeAsync("DashboardSidebar")
+
+        <!-- محتوای اصلی -->
+        <div class="col-md-9 col-lg-10 dashboard-content">
+            <div class="container mt-4">
+                <div class="row justify-content-center">
+                    <div class="col-md-8">
+                        <div class="card shadow-sm">
+                            <div class="card-header bg-primary text-white">
+                                <h4 class="card-title mb-0">ایجاد کاربر جدید</h4>
+                            </div>
+                            <div class="card-body">
+                                @if (!ViewData.ModelState.IsValid)
+                                {
+                                    <div class="alert alert-danger">
+                                        <ul>
+                                            @foreach (var modelError in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                                            {
+                                                <li>@modelError.ErrorMessage</li>
+                                            }
+                                        </ul>
+                                    </div>
+                                }
+
+                                <form asp-action="Create" method="post" class="needs-validation" novalidate>
+                                    @Html.AntiForgeryToken()
+
+                                    <!-- اطلاعات حساب کاربری -->
+                                    <div class="card mb-4">
+                                        <div class="card-header bg-light">
+                                            <h5 class="mb-0">اطلاعات حساب کاربری</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="mb-3">
+                                                <label asp-for="Username" class="form-label">نام کاربری</label>
+                                                <input asp-for="Username" class="form-control" placeholder="نام کاربری را وارد کنید"/>
+                                                <span asp-validation-for="Username" class="text-danger"></span>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-md-6 mb-3">
+                                                    <label asp-for="Password" class="form-label">رمز عبور</label>
+                                                    <div class="input-group">
+                                                        <input asp-for="Password" type="password" class="form-control" placeholder="رمز عبور را وارد کنید"/>
+                                                        <button class="btn btn-outline-secondary" type="button" onclick="togglePassword('Password')">
+                                                            <i class="fas fa-eye"></i>
+                                                        </button>
+                                                    </div>
+                                                    <span asp-validation-for="Password" class="text-danger"></span>
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <label asp-for="ConfirmPassword" class="form-label">تکرار رمز عبور</label>
+                                                    <div class="input-group">
+                                                        <input asp-for="ConfirmPassword" type="password" class="form-control" placeholder="رمز عبور را تکرار کنید"/>
+                                                        <button class="btn btn-outline-secondary" type="button" onclick="togglePassword('ConfirmPassword')">
+                                                            <i class="fas fa-eye"></i>
+                                                        </button>
+                                                    </div>
+                                                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- اطلاعات شخصی -->
+                                    <div class="card mb-4">
+                                        <div class="card-header bg-light">
+                                            <h5 class="mb-0">اطلاعات شخصی</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-6 mb-3">
+                                                    <label asp-for="FirstName" class="form-label">نام</label>
+                                                    <input asp-for="FirstName" class="form-control" placeholder="نام را وارد کنید"/>
+                                                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                                                </div>
+                                                <div class="col-md-6 mb-3">
+                                                    <label asp-for="LastName" class="form-label">نام خانوادگی</label>
+                                                    <input asp-for="LastName" class="form-control" placeholder="نام خانوادگی را وارد کنید"/>
+                                                    <span asp-validation-for="LastName" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- نقش کاربری -->
+                                    <div class="card mb-4">
+                                        <div class="card-header bg-light">
+                                            <h5 class="mb-0">نقش کاربری</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="mb-3">
+                                                <label asp-for="Role" class="form-label">نقش</label>
+                                                <select asp-for="Role" class="form-control select2">
+                                                    <option value="">نقش کاربر را انتخاب کنید</option>
+                                                    <option value="Admin">مدیر سیستم</option>
+                                                    <option value="User">کاربر عادی</option>
+                                                </select>
+                                                <span asp-validation-for="Role" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="text-end">
+                                        <a asp-action="Index" class="btn btn-secondary">انصراف</a>
+                                        <button type="submit" class="btn btn-primary">ثبت کاربر</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial"/>
+
+    <script>
+        function togglePassword(fieldId) {
+            var field = document.getElementById(fieldId);
+            if (field.type === "password") {
+                field.type = "text";
+            } else {
+                field.type = "password";
+            }
+        }
+    </script>
+}
