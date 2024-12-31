@@ -250,3 +250,4 @@ C:\Users\abbas\RiderProjects\MiniProfiler_Test\MiniProfiler_Test\bin\Debug\net8.
 C:\Users\abbas\RiderProjects\MiniProfiler_Test\MiniProfiler_Test\bin\Debug\net8.0\Microsoft.Extensions.Logging.Abstractions.dll
 C:\Users\abbas\RiderProjects\MiniProfiler_Test\MiniProfiler_Test\bin\Debug\net8.0\Microsoft.Extensions.Options.dll
 C:\Users\abbas\RiderProjects\MiniProfiler_Test\MiniProfiler_Test\bin\Debug\net8.0\MiniProfiler.EntityFrameworkCore.dll
+C:\Users\abbas\RiderProjects\MiniProfiler_Test\MiniProfiler_Test\obj\Debug\net8.0\MiniProfiler_Test.sourcelink.json

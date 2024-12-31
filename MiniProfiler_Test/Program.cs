@@ -9,6 +9,7 @@ using MiniProfiler_Test.Services.Api;
 using MiniProfiler_Test.Services.Base;
 using MiniProfiler_Test.Services.Captcha;
 using MiniProfiler_Test.Services.Storage;
+using StackExchange.Profiling;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,7 +19,11 @@ builder.Services.AddControllersWithViews(
     options => { options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute()); });
 
 builder.Services.AddMvc();
-builder.Services.AddMiniProfiler()
+builder.Services.AddMiniProfiler(options =>
+    {
+        options.RouteBasePath = "/profiler";
+        options.ColorScheme = ColorScheme.Dark;
+    })
     .AddEntityFramework();
 builder.Services.AddSession();
 builder.Services.AddHttpsRedirection(options =>
@@ -78,6 +83,8 @@ builder.Services.AddRateLimiter(options =>
 
 var app = builder.Build();
 
+app.UseMiniProfiler();
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
@@ -96,7 +103,6 @@ app.UseRateLimiter();
 
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseMiniProfiler();
 
 app.UseEndpoints(endpoints =>
 {
