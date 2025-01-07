@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MiniProfiler_Test")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+84d6d9eec495d49c5c557d32da6b83e127e445d0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1280e1d15bd07c4062739cf583833f631d084057")]
 [assembly: System.Reflection.AssemblyProductAttribute("MiniProfiler_Test")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MiniProfiler_Test")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

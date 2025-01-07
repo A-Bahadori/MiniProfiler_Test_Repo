@@ -62,8 +62,8 @@ public class AccountController : SiteBaseController
 
         if (!isValidCaptcha)
         {
-            ModelState.AddModelError("", "کد امنیتی صحیح نیست");
-            ModelState.Remove("CaptchaInput");
+            ModelState.AddModelError("CaptchaInput", "کد امنیتی صحیح نیست");
+            // ModelState.Remove("CaptchaInput");
             model.CaptchaInput = string.Empty;
             return View(model);
         }
